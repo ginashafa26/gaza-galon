@@ -1331,12 +1331,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Delegasi Event Klik Global untuk Hapus, Selesai, Pickup, dan Edit
   document.addEventListener('click', async (event) => {
-    const target = event.target;
+    // Pickup Order Khusus
+    const takeOrderBtn = event.target.closest('[data-take-order]');
+    if (takeOrderBtn) {
+      const order = await GazaDB.get(STORES.specialOrders, Number(takeOrderBtn.dataset.takeOrder));
+      await updateOrder(order, takeOrderBtn.dataset.employee);
+      return;
+    }
+
+    // Selesai Order Khusus
+    const completeOrderBtn = event.target.closest('[data-order-complete]');
+    if (completeOrderBtn) {
+      const order = await GazaDB.get(STORES.specialOrders, Number(completeOrderBtn.dataset.orderComplete));
+      await markOrderComplete(order);
+      return;
+    }
 
     // Hapus dengan Custom Modal Konfirmasi
-    if (target.dataset.deleteStore) {
-      const storeName = target.dataset.deleteStore;
-      const id = Number(target.dataset.deleteId);
+    const deleteBtn = event.target.closest('[data-delete-store]');
+    if (deleteBtn) {
+      const storeName = deleteBtn.dataset.deleteStore;
+      const id = Number(deleteBtn.dataset.deleteId);
 
       let msg = 'Hapus data ini?';
       if (storeName === STORES.employeeTransactions) {
@@ -1360,25 +1375,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         await GazaDB.delete(storeName, id);
         await refreshAll();
       });
-    }
-
-    // Pickup Order Khusus
-    if (target.dataset.takeOrder) {
-      const order = await GazaDB.get(STORES.specialOrders, Number(target.dataset.takeOrder));
-      await updateOrder(order, target.dataset.employee);
-    }
-
-    // Selesai Order Khusus
-    if (target.dataset.orderComplete) {
-      const order = await GazaDB.get(STORES.specialOrders, Number(target.dataset.orderComplete));
-      await markOrderComplete(order);
+      return;
     }
 
     // Edit Modal (Pengganti prompt())
-    if (target.dataset.editStore) {
-      const storeName = target.dataset.editStore;
-      const id = Number(target.dataset.editId);
+    const editBtn = event.target.closest('[data-edit-store]');
+    if (editBtn) {
+      const storeName = editBtn.dataset.editStore;
+      const id = Number(editBtn.dataset.editId);
       await openEditModal(storeName, id);
+      return;
     }
   });
 

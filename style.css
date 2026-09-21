@@ -900,6 +900,13 @@ button:focus-visible, input:focus-visible {
   transition: background 0.12s ease;
 }
 
+.pickup-btn *,
+.finish-order-btn *,
+.btn-order-edit *,
+.btn-order-delete * {
+  pointer-events: none;
+}
+
 .pickup-btn:active {
   background: var(--primary-soft);
 }
