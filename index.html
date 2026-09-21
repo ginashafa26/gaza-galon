@@ -11,14 +11,17 @@
   </head>
   <body>
     <div class="app-frame">
-      <!-- Sidebar Navigasi Desktop -->
-      <aside id="desktop-sidebar" class="desktop-sidebar" aria-label="Navigasi desktop">
-        <div class="sidebar-brand">
-          <div class="brand-mark">G</div>
-          <div>
-            <strong>GAZA GALON</strong>
-            <span>Operasional Depot</span>
+      <!-- Sidebar Navigasi Interaktif -->
+      <aside id="desktop-sidebar" class="desktop-sidebar" aria-label="Navigasi Menu">
+        <div class="sidebar-header">
+          <div class="sidebar-brand">
+            <div class="brand-mark">G</div>
+            <div>
+              <strong>GAZA GALON</strong>
+              <span>Operasional Depot</span>
+            </div>
           </div>
+          <button type="button" id="btn-close-sidebar" class="sidebar-close-btn" aria-label="Tutup Menu">✕</button>
         </div>
         <nav class="sidebar-nav">
           <button type="button" class="nav-item active-nav" data-view="home-view">
@@ -36,13 +39,23 @@
         </nav>
         <div class="sidebar-foot">Data tersimpan di HP / perangkat ini</div>
       </aside>
+      <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
 
       <main class="app-shell">
-        <!-- TOPBAR: Hanya judul layar / header simpel -->
+        <!-- TOPBAR: Header simpel dengan tombol menu & tanggal -->
         <header class="topbar">
-          <div class="topbar-title-wrap">
-            <h1 id="screen-title" class="screen-title">GAZA GALON</h1>
-            <p id="screen-subtitle" class="screen-subtitle">Depot Air Minum</p>
+          <div class="topbar-left">
+            <button type="button" id="btn-toggle-sidebar" class="sidebar-toggle-btn" aria-label="Buka Menu" aria-expanded="false">
+              <span class="hamburger-box">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+              </span>
+            </button>
+            <div class="topbar-title-wrap">
+              <h1 id="screen-title" class="screen-title">GAZA GALON</h1>
+              <p id="screen-subtitle" class="screen-subtitle">Depot Air Minum</p>
+            </div>
           </div>
           <div class="today-chip"><span class="live-dot"></span><span id="today-label">Hari ini</span></div>
         </header>

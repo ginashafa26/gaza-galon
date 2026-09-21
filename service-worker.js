@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gaza-galon-v4';
+const CACHE_NAME = 'gaza-galon-v5';
 const ASSETS = [
   './',
   './index.html',

@@ -1242,6 +1242,55 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!byId('report-content').hidden) await renderReport();
   }
 
+  /* Interactive Sidebar (Drawer) Controls */
+  const sidebar = byId('desktop-sidebar');
+  const sidebarBackdrop = byId('sidebar-backdrop');
+  const btnToggleSidebar = byId('btn-toggle-sidebar');
+  const btnCloseSidebar = byId('btn-close-sidebar');
+
+  function openSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.add('open');
+    if (sidebarBackdrop) sidebarBackdrop.classList.add('active');
+    if (btnToggleSidebar) btnToggleSidebar.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('open');
+    if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
+    if (btnToggleSidebar) btnToggleSidebar.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  function toggleSidebar() {
+    if (!sidebar) return;
+    if (sidebar.classList.contains('open')) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  }
+
+  if (btnToggleSidebar) btnToggleSidebar.addEventListener('click', toggleSidebar);
+  if (btnCloseSidebar) btnCloseSidebar.addEventListener('click', closeSidebar);
+  if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebar);
+
+  // Close when pressing Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar && sidebar.classList.contains('open')) {
+      closeSidebar();
+    }
+  });
+
+  // Close sidebar automatically when user clicks any menu link
+  document.querySelectorAll('.sidebar-nav .nav-item').forEach((item) => {
+    item.addEventListener('click', () => {
+      closeSidebar();
+    });
+  });
+
   /* Event Listeners Navigasi */
   document.querySelectorAll('[data-view]').forEach((button) => {
     button.addEventListener('click', () => showView(button.dataset.view));
