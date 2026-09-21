@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gaza-galon-v5';
+const CACHE_NAME = 'gaza-galon-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -35,23 +35,36 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      return fetch(event.request)
+  // Network-first untuk halaman HTML agar selalu dapat versi terbaru saat ada internet
+  if (event.request.mode === 'navigate' || event.request.headers.get('accept')?.includes('text/html')) {
+    event.respondWith(
+      fetch(event.request)
         .then((networkResponse) => {
           const responseClone = networkResponse.clone();
-
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseClone);
           });
-
           return networkResponse;
         })
-        .catch(() => caches.match('./index.html'));
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // Cache-first dengan background update untuk aset statis
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+          return networkResponse;
+        })
+        .catch(() => cachedResponse);
+
+      return cachedResponse || fetchPromise;
     })
   );
 });

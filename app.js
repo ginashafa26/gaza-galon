@@ -1397,12 +1397,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   await GazaDB.open();
   await refreshAll();
 
-  // Register Service Worker
+  // Register Service Worker & Auto-update
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () =>
+    window.addEventListener('load', () => {
       navigator.serviceWorker
         .register('./service-worker.js')
-        .catch((err) => console.log('Service worker gagal didaftarkan:', err))
-    );
+        .then((reg) => {
+          reg.update();
+        })
+        .catch((err) => console.log('Service worker gagal didaftarkan:', err));
+
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
+    });
   }
 });
