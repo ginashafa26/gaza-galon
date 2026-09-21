@@ -1,0 +1,1336 @@
+:root {
+  --primary: #102a43;
+  --secondary: #1677ff;
+  --accent: #0f8b5f;
+  --danger: #d9383a;
+  --ink: #102a43;
+  --ink-soft: #334e68;
+  --muted: #627d98;
+  --paper: #f4f7fb;
+  --card: #ffffff;
+  --line: #cbd2d9;
+  --primary-soft: #e2e8f0;
+  --secondary-soft: #e6f0ff;
+  --accent-soft: #e6f7f0;
+  --danger-soft: #fde8e8;
+  --shadow: 0 4px 20px rgba(16, 42, 67, 0.08);
+
+  /* Identitas Karyawan — HANYA untuk warna teks nama */
+  --oleh: #1677ff;    /* biru */
+  --dadang: #d96500;  /* oranye */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--paper);
+  font-size: 18px; /* Standard base font 18px untuk kemudahan baca */
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--secondary);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   LAYOUT & CONTAINER
+   Mobile-first 1 kolom; Desktop rapi di tengah 640-720px
+   ========================================================================== */
+.app-frame {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px 16px 96px; /* 96px padding bawah agar tidak tertutup bottom nav */
+}
+
+/* Topbar Simpel */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+}
+
+.topbar-title-wrap h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+}
+
+.topbar-title-wrap p {
+  margin: 2px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.today-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+}
+
+.live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ==========================================================================
+   BOTTOM NAVIGATION (Mobile) & DESKTOP SIDEBAR
+   ========================================================================== */
+.desktop-sidebar {
+  display: none; /* Disembunyikan di HP */
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: #ffffff;
+  border-top: 2px solid var(--line);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  padding: 0 8px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.bottom-nav-item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.15s ease;
+}
+
+.bottom-nav-icon {
+  font-size: 24px;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.bottom-nav-label {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.bottom-nav-item.active-nav {
+  color: var(--secondary);
+}
+
+.bottom-nav-item.active-nav .bottom-nav-icon {
+  transform: scale(1.1);
+}
+
+/* Desktop layout query: Sidebar tetap di samping */
+@media (min-width: 768px) {
+  .app-frame {
+    flex-direction: row;
+  }
+
+  .desktop-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    background: var(--primary);
+    color: #ffffff;
+    padding: 24px 16px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 50;
+  }
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: var(--primary);
+    font-size: 22px;
+    font-weight: 900;
+    display: grid;
+    place-items: center;
+  }
+
+  .sidebar-brand strong {
+    font-size: 18px;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  .sidebar-brand span {
+    font-size: 14px;
+    color: #bcccdc;
+    display: block;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sidebar-nav .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 14px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: #bcccdc;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .sidebar-nav .nav-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  .sidebar-nav .nav-item.active-nav {
+    background: #ffffff;
+    color: var(--primary);
+  }
+
+  .sidebar-foot {
+    margin-top: auto;
+    font-size: 14px;
+    color: #829ab1;
+    line-height: 1.4;
+  }
+
+  .bottom-nav {
+    display: none; /* Di desktop bottom nav hilang */
+  }
+
+  .app-shell {
+    margin-left: 240px;
+    margin-right: auto;
+    max-width: 680px;
+    padding: 32px 24px 60px;
+  }
+}
+
+/* ==========================================================================
+   CARDS & TYPOGRAPHY STANDARDS
+   ========================================================================== */
+.card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
+
+.hero-question {
+  margin: 0 0 16px 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.home-hero {
+  margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   HOME VIEW
+   Kartu pintu masuk besar, tanpa info nominal uang
+   ========================================================================== */
+.pending-alert-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #fff8e6;
+  border: 2px solid #f6c000;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.alert-icon {
+  font-size: 24px;
+}
+
+.alert-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #7c4a03;
+  flex: 1;
+}
+
+.alert-action-btn {
+  min-height: 48px;
+  padding: 0 18px;
+  background: #f6c000;
+  color: #3b2301;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.home-menu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.home-entry-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 22px 20px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.1s ease, border-color 0.15s ease, background-color 0.15s ease;
+  min-height: 100px;
+}
+
+.home-entry-card:active {
+  transform: scale(0.985);
+  background: var(--primary-soft);
+}
+
+/* ==========================================================================
+   UTILITY WARNA NAMA KARYAWAN
+   Pakai di SEMUA tempat: home, riwayat, pesanan, setoran.
+   Hanya atur warna teks + weight. Tidak ada background, border, atau shadow.
+   ========================================================================== */
+.nama-oleh {
+  color: var(--oleh) !important;
+  font-weight: 900;
+}
+
+.nama-dadang {
+  color: var(--dadang) !important;
+  font-weight: 900;
+}
+
+.entry-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  /* Badge bawa galon: netral untuk semua karyawan */
+  background: var(--primary-soft);
+  color: var(--ink-soft);
+}
+
+.badge-jual {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.badge-pesanan {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.entry-title {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.entry-desc {
+  font-size: 17px;
+  color: var(--ink-soft);
+}
+
+.full-card {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.entry-arrow {
+  font-size: 26px;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+/* ==========================================================================
+   ALUR FLOW (HEADER & BACK BUTTON)
+   ========================================================================== */
+.flow-header {
+  margin-bottom: 20px;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px 16px;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink-soft);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.back-button:active {
+  background: var(--primary-soft);
+}
+
+.flow-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.flow-subtitle {
+  margin: 4px 0 0;
+  font-size: 18px;
+  color: var(--ink-soft);
+}
+
+.flow-card {
+  padding: 24px 20px;
+}
+
+/* ==========================================================================
+   STEPPER INPUT KOMPONEN
+   Tombol +/- min 56x56px, Angka 36-44px tebal
+   ========================================================================== */
+.stepper-block {
+  padding: 16px 0;
+  border-bottom: 2px solid var(--primary-soft);
+}
+
+.stepper-block:last-of-type {
+  border-bottom: none;
+}
+
+.stepper-label-row {
+  margin-bottom: 12px;
+}
+
+.stepper-title {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.stepper-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.stepper-btn {
+  flex: 0 0 64px;
+  height: 64px;
+  border-radius: 16px;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 36px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.1s ease, border-color 0.1s ease;
+}
+
+.stepper-btn:active {
+  background: var(--secondary-soft);
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+.stepper-value-display {
+  flex: 1;
+  text-align: center;
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* Nominal Display */
+.nominal-box {
+  margin: 24px 0 16px;
+  padding: 18px;
+  background: var(--primary-soft);
+  border-radius: 14px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nominal-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.nominal-value {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   BUTTONS STANDARDS (Min 56px, Jarak min 12px, Font min 18px)
+   ========================================================================== */
+.primary-button, .action-large-btn {
+  width: 100%;
+  min-height: 58px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 14px;
+  background: var(--secondary);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.primary-button:active:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(1px);
+}
+
+.primary-button:disabled {
+  background: var(--line);
+  color: var(--muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.red-button {
+  background: var(--danger);
+}
+
+.form-hint {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+  margin: 8px 0 14px;
+}
+
+/* Server Selection Group (Jual Langsung) */
+.server-selection-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.server-choice-btn {
+  min-height: 56px;
+  padding: 10px 8px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--ink-soft);
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.server-choice-btn.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.server-choice-btn.selected::before {
+  content: "✓ ";
+  font-weight: 900;
+}
+
+/* Input Fields (Min 56px height, Font min 18px) */
+.form-large-group {
+  margin-bottom: 18px;
+}
+
+.large-input-label {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.large-text-input {
+  width: 100%;
+  min-height: 56px;
+  padding: 12px 16px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.large-text-input:focus {
+  border-color: var(--secondary);
+}
+
+/* ==========================================================================
+   DAFTAR PESANAN BELUM SELESAI
+   ========================================================================== */
+.pending-orders-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-detail-card {
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.order-detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.order-customer-name {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--ink);
+  margin: 0;
+}
+
+.order-location-text {
+  font-size: 17px;
+  color: var(--ink-soft);
+  margin: 4px 0 0;
+}
+
+.order-items-badge {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--primary);
+  background: var(--primary-soft);
+  padding: 6px 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.order-status-badge {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.badge-pending {
+  background: #fff8e6;
+  color: #b7791f;
+  border: 1px solid #f6c000;
+}
+
+.badge-moving {
+  background: var(--secondary-soft);
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
+}
+
+.badge-done {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.order-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 2px solid var(--primary-soft);
+}
+
+.order-pickup-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pickup-btn {
+  min-height: 56px;
+  background: #ffffff;
+  color: var(--ink);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s ease;
+}
+
+.pickup-btn:active {
+  background: var(--primary-soft);
+}
+
+/* Tombol pickup: netral, nama di dalamnya berwarna via .nama-oleh/.nama-dadang */
+
+.finish-order-btn {
+  min-height: 56px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 19px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.order-secondary-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-order-edit, .btn-order-delete {
+  min-height: 48px;
+  padding: 8px 16px;
+  border: 2px solid var(--line);
+  background: #ffffff;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-order-delete {
+  color: var(--danger);
+  border-color: #fbd5d5;
+}
+
+/* ==========================================================================
+   RIWAYAT (TAB BESAR, KARTU LIST, TANPA NOMINAL UANG)
+   ========================================================================== */
+.data-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  min-height: 52px;
+  padding: 8px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--ink-soft);
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.tab-button.active-tab {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.history-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.history-card {
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-shadow: var(--shadow);
+}
+
+/* Nama karyawan di riwayat: teks berwarna saja, kartu tetap netral */
+
+.history-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.history-name {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.history-date {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.history-items {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+
+.history-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  border-top: 1px solid var(--primary-soft);
+  padding-top: 12px;
+}
+
+.history-btn-edit, .history-btn-delete {
+  min-height: 48px;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.history-btn-edit {
+  border: 2px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.history-btn-delete {
+  border: 2px solid #fbd5d5;
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* ==========================================================================
+   FILTER CHIPS & SECTIONS (RIWAYAT & LAPORAN)
+   TOMBOL BESAR, GAYA KONSISTEN (HIJAU SOLID + CENTANG)
+   ========================================================================== */
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.filter-row::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-chip {
+  min-height: 50px;
+  padding: 10px 16px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.filter-chip:active {
+  transform: scale(0.97);
+}
+
+.filter-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.filter-chip.active::before {
+  content: "✓ ";
+  font-weight: 900;
+}
+
+.filter-chip.active .nama-oleh,
+.filter-chip.active .nama-dadang {
+  color: #ffffff !important;
+}
+
+.filter-summary {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding: 4px 4px 0;
+}
+
+.empty-filter-msg {
+  text-align: center;
+  padding: 48px 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--muted);
+  background: #ffffff;
+  border: 2px dashed var(--line);
+  border-radius: 16px;
+  margin: 16px 0;
+}
+
+/* ==========================================================================
+   LAPORAN
+   ========================================================================== */
+.date-quick-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.custom-date-wrap {
+  margin-top: 10px;
+}
+
+.report-date-display-box {
+  margin: 14px 0 10px;
+  text-align: center;
+}
+
+.report-display-date-text {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1.3;
+}
+
+.report-nav-arrows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.report-nav-btn {
+  min-height: 54px;
+  padding: 10px 12px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.report-nav-btn:active:not(:disabled) {
+  background: var(--primary-soft);
+  transform: scale(0.98);
+}
+
+.report-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: var(--primary-soft);
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.empty-report-card {
+  text-align: center;
+  padding: 48px 16px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--muted);
+  background: #ffffff;
+  border: 2px dashed var(--line);
+  border-radius: 18px;
+  margin: 20px 0;
+}
+
+.report-hero-metric {
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.report-hero-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.report-hero-amount {
+  font-size: 34px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.accordion-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.accordion-item {
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.accordion-header {
+  width: 100%;
+  min-height: 60px;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion-icon {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  padding: 18px 20px;
+  border-top: 2px solid var(--primary-soft);
+  background: var(--paper);
+}
+
+/* ==========================================================================
+   SUCCESS OVERLAY (FULL SCREEN GREEN) + BATALKAN 10s
+   ========================================================================== */
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0d734e; /* Hijau solid jelas & ramah */
+  color: #ffffff;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.success-content {
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.success-checkmark {
+  width: 90px;
+  height: 90px;
+  background: #ffffff;
+  color: #0d734e;
+  border-radius: 50%;
+  font-size: 56px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.success-title {
+  margin: 0 0 10px;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.success-detail {
+  margin: 0 0 36px;
+  font-size: 22px;
+  font-weight: 600;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+.success-overlay .nama-oleh,
+.success-overlay .nama-dadang {
+  color: #ffffff !important;
+}
+
+.success-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cancel-save-btn {
+  width: 100%;
+  min-height: 60px;
+  background: #ffffff;
+  color: #b91c1c;
+  border: 3px solid #ffffff;
+  border-radius: 16px;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.done-save-btn {
+  width: 100%;
+  min-height: 56px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  font-size: 19px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   CUSTOM MODAL (KONFIRMASI HAPUS & EDIT FORM)
+   ========================================================================== */
+.custom-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 42, 67, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.custom-modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 26px 22px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+}
+
+.modal-wide {
+  max-width: 540px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal-title {
+  margin: 0 0 12px;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.modal-message {
+  margin: 0 0 24px;
+  font-size: 20px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal-btn {
+  min-height: 56px;
+  border-radius: 14px;
+  font-size: 19px;
+  font-weight: 900;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.modal-btn-secondary {
+  background: var(--primary);
+  color: #ffffff;
+  border: 2px solid var(--primary);
+}
+
+.modal-btn-danger {
+  background: #ffffff;
+  color: var(--danger);
+  border: 2px solid var(--danger);
+}
+
+.modal-btn-primary {
+  background: var(--secondary);
+  color: #ffffff;
+  border: none;
+}
+
+.edit-modal-body {
+  margin-bottom: 20px;
+}
+
+.login-card {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.login-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}

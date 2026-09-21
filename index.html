@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#102a43" />
+    <title>GAZA GALON | Operasional Depot</title>
+    <meta name="description" content="Aplikasi operasional harian Gaza Galon." />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-frame">
+      <!-- Sidebar Navigasi Desktop -->
+      <aside id="desktop-sidebar" class="desktop-sidebar" aria-label="Navigasi desktop">
+        <div class="sidebar-brand">
+          <div class="brand-mark">G</div>
+          <div>
+            <strong>GAZA GALON</strong>
+            <span>Operasional Depot</span>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <button type="button" class="nav-item active-nav" data-view="home-view">
+            <span class="nav-icon">⌂</span>
+            <span>Beranda</span>
+          </button>
+          <button type="button" class="nav-item" data-view="data-view">
+            <span class="nav-icon">▣</span>
+            <span>Riwayat</span>
+          </button>
+          <button type="button" class="nav-item" data-view="report-view">
+            <span class="nav-icon">▤</span>
+            <span>Laporan</span>
+          </button>
+        </nav>
+        <div class="sidebar-foot">Data tersimpan di HP / perangkat ini</div>
+      </aside>
+
+      <main class="app-shell">
+        <!-- TOPBAR: Hanya judul layar / header simpel -->
+        <header class="topbar">
+          <div class="topbar-title-wrap">
+            <h1 id="screen-title" class="screen-title">GAZA GALON</h1>
+            <p id="screen-subtitle" class="screen-subtitle">Depot Air Minum</p>
+          </div>
+          <div class="today-chip"><span class="live-dot"></span><span id="today-label">Hari ini</span></div>
+        </header>
+
+        <!-- =====================================
+             HOME (BERANDA)
+             Pintu masuk saja: tanpa form, tanpa angka, tanpa uang.
+             ===================================== -->
+        <section id="home-view" class="view active-view" aria-label="Beranda">
+          <div class="home-hero">
+            <p class="eyebrow">PILIHAN</p>
+            <h2 class="hero-question">Mau mencatat apa?</h2>
+          </div>
+
+          <!-- Baris peringatan lembut jika ada pesanan belum selesai -->
+          <div id="pending-alert-bar" class="pending-alert-bar" hidden>
+            <span class="alert-icon">⚠️</span>
+            <span id="pending-alert-text" class="alert-text">Ada pesanan belum selesai</span>
+            <button type="button" id="btn-see-pending" class="alert-action-btn" data-view="orders-list-view">Lihat</button>
+          </div>
+
+          <div class="home-menu-grid">
+            <button type="button" class="home-entry-card person-card" id="btn-home-oleh">
+              <span class="entry-badge">Bawa galon</span>
+              <strong class="entry-title nama-oleh">OLEH</strong>
+              <span class="entry-desc">Catat setoran galon keliling</span>
+            </button>
+
+            <button type="button" class="home-entry-card person-card" id="btn-home-dadang">
+              <span class="entry-badge">Bawa galon</span>
+              <strong class="entry-title nama-dadang">DADANG</strong>
+              <span class="entry-desc">Catat setoran galon keliling</span>
+            </button>
+
+            <button type="button" class="home-entry-card full-card card-jual" id="btn-home-jual">
+              <div class="card-text-group">
+                <span class="entry-badge badge-jual">Pembeli datang</span>
+                <strong class="entry-title">JUAL LANGSUNG</strong>
+                <span class="entry-desc">Pembeli datang langsung ke depot</span>
+              </div>
+              <span class="entry-arrow">➔</span>
+            </button>
+
+            <button type="button" class="home-entry-card full-card card-pesanan" id="btn-home-pesanan">
+              <div class="card-text-group">
+                <span class="entry-badge badge-pesanan">WhatsApp / Telepon</span>
+                <strong class="entry-title">PESANAN BARU</strong>
+                <span class="entry-desc">Catat pesanan antar dari pelanggan</span>
+              </div>
+              <span class="entry-arrow">➔</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- =====================================
+             ALUR 1: BAWA GALON (OLEH / DADANG)
+             ===================================== -->
+        <section id="setoran-view" class="view" aria-label="Setoran Bawa Galon" hidden>
+          <div class="flow-header">
+            <button type="button" class="back-button" data-back-to="home-view">← Kembali</button>
+            <h2 id="setoran-screen-name" class="flow-title">SETORAN OLEH</h2>
+            <p class="flow-subtitle">Berapa yang dibawa?</p>
+          </div>
+
+          <div class="card flow-card">
+            <!-- Stepper Galon -->
+            <div class="stepper-block" id="stepper-block-setoran-galon">
+              <div class="stepper-label-row">
+                <label class="stepper-title">GALON</label>
+              </div>
+              <div class="stepper-controls">
+                <button type="button" class="stepper-btn btn-minus" data-stepper-target="setoran-galon" aria-label="Kurangi Galon">-</button>
+                <div class="stepper-value-display" id="setoran-galon">0</div>
+                <button type="button" class="stepper-btn btn-plus" data-stepper-target="setoran-galon" aria-label="Tambah Galon">+</button>
+              </div>
+            </div>
+
+            <!-- Stepper Lee Mineral -->
+            <div class="stepper-block" id="stepper-block-setoran-lee">
+              <div class="stepper-label-row">
+                <label class="stepper-title">LEE MINERAL</label>
+              </div>
+              <div class="stepper-controls">
+                <button type="button" class="stepper-btn btn-minus" data-stepper-target="setoran-lee" aria-label="Kurangi Lee Mineral">-</button>
+                <div class="stepper-value-display" id="setoran-lee">0</div>
+                <button type="button" class="stepper-btn btn-plus" data-stepper-target="setoran-lee" aria-label="Tambah Lee Mineral">+</button>
+              </div>
+            </div>
+
+            <!-- Nominal Info -->
+            <div class="nominal-box">
+              <span class="nominal-label">Setoran:</span>
+              <strong class="nominal-value" id="setoran-nominal-display">Rp0</strong>
+            </div>
+
+            <!-- Hint & Action -->
+            <p class="form-hint" id="setoran-hint">Isi jumlah dulu</p>
+            <button type="button" class="primary-button action-large-btn" id="btn-save-setoran" disabled>
+              SIMPAN SETORAN
+            </button>
+          </div>
+        </section>
+
+        <!-- =====================================
+             ALUR 2: JUAL LANGSUNG
+             ===================================== -->
+        <section id="jual-view" class="view" aria-label="Jual Langsung" hidden>
+          <div class="flow-header">
+            <button type="button" class="back-button" data-back-to="home-view">← Kembali</button>
+            <h2 class="flow-title">JUAL LANGSUNG</h2>
+            <p class="flow-subtitle">Siapa yang melayani?</p>
+          </div>
+
+          <div class="card flow-card">
+            <!-- Pilihan Pelayan: Tidak ada default -->
+            <div class="server-selection-group" id="server-selection-group">
+              <button type="button" class="server-choice-btn" data-server="Ganda">GANDA</button>
+              <button type="button" class="server-choice-btn" data-server="Oleh">OLEH</button>
+              <button type="button" class="server-choice-btn" data-server="Dadang">DADANG</button>
+            </div>
+
+            <!-- Stepper Galon -->
+            <div class="stepper-block">
+              <div class="stepper-label-row">
+                <label class="stepper-title">GALON</label>
+              </div>
+              <div class="stepper-controls">
+                <button type="button" class="stepper-btn btn-minus" data-stepper-target="jual-galon" aria-label="Kurangi Galon">-</button>
+                <div class="stepper-value-display" id="jual-galon">0</div>
+                <button type="button" class="stepper-btn btn-plus" data-stepper-target="jual-galon" aria-label="Tambah Galon">+</button>
+              </div>
+            </div>
+
+            <!-- Stepper Lee Mineral -->
+            <div class="stepper-block">
+              <div class="stepper-label-row">
+                <label class="stepper-title">LEE MINERAL</label>
+              </div>
+              <div class="stepper-controls">
+                <button type="button" class="stepper-btn btn-minus" data-stepper-target="jual-lee" aria-label="Kurangi Lee Mineral">-</button>
+                <div class="stepper-value-display" id="jual-lee">0</div>
+                <button type="button" class="stepper-btn btn-plus" data-stepper-target="jual-lee" aria-label="Tambah Lee Mineral">+</button>
+              </div>
+            </div>
+
+            <!-- Nominal Info -->
+            <div class="nominal-box">
+              <span class="nominal-label">Terima dari pembeli:</span>
+              <strong class="nominal-value" id="jual-nominal-display">Rp0</strong>
+            </div>
+
+            <!-- Hint & Action -->
+            <p class="form-hint" id="jual-hint">Pilih siapa yang melayani</p>
+            <button type="button" class="primary-button action-large-btn" id="btn-save-jual" disabled>
+              SIMPAN PENJUALAN
+            </button>
+          </div>
+        </section>
+
+        <!-- =====================================
+             ALUR 3a: PESANAN BARU
+             ===================================== -->
+        <section id="pesanan-new-view" class="view" aria-label="Pesanan Baru" hidden>
+          <div class="flow-header">
+            <button type="button" class="back-button" data-back-to="home-view">← Kembali</button>
+            <h2 class="flow-title">PESANAN BARU</h2>
+            <p class="flow-subtitle">Dari WhatsApp / Telepon</p>
+          </div>
+
+          <div class="card flow-card">
+            <div class="form-large-group">
+              <label for="order-customer-input" class="large-input-label">Nama pelanggan</label>
+              <input id="order-customer-input" class="large-text-input" type="text" placeholder="Contoh: Pak Asep" autocomplete="off" />
+            </div>
+
+            <div class="form-large-group">
+              <label for="order-location-input" class="large-input-label">Antar ke mana?</label>
+              <input id="order-location-input" class="large-text-input" type="text" placeholder="Contoh: Kp. Sukamaju" autocomplete="off" />
+            </div>
+
+            <!-- Stepper Galon -->
+            <div class="stepper-block">
+              <div class="stepper-label-row">
+                <label class="stepper-title">GALON</label>
+              </div>
+              <div class="stepper-controls">
+                <button type="button" class="stepper-btn btn-minus" data-stepper-target="order-galon" aria-label="Kurangi Galon">-</button>
+                <div class="stepper-value-display" id="order-galon">0</div>
+                <button type="button" class="stepper-btn btn-plus" data-stepper-target="order-galon" aria-label="Tambah Galon">+</button>
+              </div>
+            </div>
+
+            <!-- Stepper Lee Mineral -->
+            <div class="stepper-block">
+              <div class="stepper-label-row">
+                <label class="stepper-title">LEE MINERAL</label>
+              </div>
+              <div class="stepper-controls">
+                <button type="button" class="stepper-btn btn-minus" data-stepper-target="order-lee" aria-label="Kurangi Lee Mineral">-</button>
+                <div class="stepper-value-display" id="order-lee">0</div>
+                <button type="button" class="stepper-btn btn-plus" data-stepper-target="order-lee" aria-label="Tambah Lee Mineral">+</button>
+              </div>
+            </div>
+
+            <p class="form-hint" id="order-hint">Isi nama dan jumlah galon</p>
+            <button type="button" class="primary-button action-large-btn" id="btn-save-order" disabled>
+              SIMPAN PESANAN
+            </button>
+          </div>
+        </section>
+
+        <!-- =====================================
+             ALUR 3b: DAFTAR PESANAN BELUM SELESAI
+             ===================================== -->
+        <section id="orders-list-view" class="view" aria-label="Pesanan Belum Selesai" hidden>
+          <div class="flow-header">
+            <button type="button" class="back-button" data-back-to="home-view">← Kembali</button>
+            <h2 class="flow-title">PESANAN AKTIF</h2>
+            <p class="flow-subtitle">Daftar pesanan belum selesai</p>
+          </div>
+
+          <div id="pending-orders-container" class="pending-orders-cards">
+            <!-- Kartu-kartu pesanan aktif dirender secara dinamis -->
+          </div>
+        </section>
+
+        <!-- =====================================
+             RIWAYAT (SEBELUMNYA "DATA")
+             ===================================== -->
+        <section id="data-view" class="view" aria-label="Riwayat" hidden>
+          <div class="page-intro">
+            <div>
+              <p class="eyebrow">CATATAN</p>
+              <h2>Riwayat</h2>
+            </div>
+          </div>
+
+          <div class="data-tabs">
+            <button type="button" class="tab-button active-tab" data-tab="employee-data">Bawa Galon</button>
+            <button type="button" class="tab-button" data-tab="sales-data">Jual Langsung</button>
+            <button type="button" class="tab-button" data-tab="orders-data">Pesanan</button>
+          </div>
+
+          <!-- Filter Riwayat (Maksimal 2 baris filter) -->
+          <div class="filter-section" id="riwayat-filter-section">
+            <!-- Baris 1 (tanggal): [ Hari ini ] [ Kemarin ] [ 7 hari ] [ Pilih tanggal ] -->
+            <div class="filter-row filter-date-row">
+              <button type="button" class="filter-chip active" data-date-filter="today">Hari ini</button>
+              <button type="button" class="filter-chip" data-date-filter="yesterday">Kemarin</button>
+              <button type="button" class="filter-chip" data-date-filter="7days">7 hari</button>
+              <button type="button" class="filter-chip" data-date-filter="custom">Pilih tanggal</button>
+            </div>
+
+            <!-- Input tanggal kustom (hanya muncul saat "Pilih tanggal" aktif) -->
+            <div id="riwayat-custom-date-wrap" class="custom-date-wrap" hidden>
+              <input type="date" id="riwayat-custom-date" class="large-text-input" />
+            </div>
+
+            <!-- Baris 2 (orang/status), berganti sesuai tab aktif -->
+            <!-- Tab Bawa Galon: [ Semua ] [ Oleh ] [ Dadang ] -->
+            <div class="filter-row filter-person-row" id="filter-person-employee">
+              <button type="button" class="filter-chip active" data-person-filter="ALL">Semua</button>
+              <button type="button" class="filter-chip" data-person-filter="Oleh"><span class="nama-oleh">Oleh</span></button>
+              <button type="button" class="filter-chip" data-person-filter="Dadang"><span class="nama-dadang">Dadang</span></button>
+            </div>
+
+            <!-- Tab Jual Langsung: [ Semua ] [ Ganda ] [ Oleh ] [ Dadang ] -->
+            <div class="filter-row filter-person-row" id="filter-person-sales" hidden>
+              <button type="button" class="filter-chip active" data-sales-filter="ALL">Semua</button>
+              <button type="button" class="filter-chip" data-sales-filter="Ganda">Ganda</button>
+              <button type="button" class="filter-chip" data-sales-filter="Oleh"><span class="nama-oleh">Oleh</span></button>
+              <button type="button" class="filter-chip" data-sales-filter="Dadang"><span class="nama-dadang">Dadang</span></button>
+            </div>
+
+            <!-- Tab Pesanan: [ Belum selesai ] [ Selesai ] [ Semua ]. Default: Belum selesai -->
+            <div class="filter-row filter-person-row" id="filter-person-orders" hidden>
+              <button type="button" class="filter-chip active" data-order-filter="PENDING">Belum selesai</button>
+              <button type="button" class="filter-chip" data-order-filter="DONE">Selesai</button>
+              <button type="button" class="filter-chip" data-order-filter="ALL">Semua</button>
+            </div>
+
+            <!-- Ringkasan Filter -->
+            <div class="filter-summary" id="riwayat-filter-summary">
+              Menampilkan 0 catatan hari ini
+            </div>
+          </div>
+
+          <div id="employee-data" class="data-panel"></div>
+          <div id="sales-data" class="data-panel" hidden></div>
+          <div id="orders-data" class="data-panel" hidden></div>
+        </section>
+
+        <!-- =====================================
+             LAPORAN
+             ===================================== -->
+        <section id="report-view" class="view" aria-label="Laporan harian" hidden>
+          <div class="page-intro">
+            <div>
+              <p class="eyebrow">PEMASUKAN & PENGELUARAN</p>
+              <h2>Laporan</h2>
+            </div>
+          </div>
+
+          <div id="report-login" class="card login-card">
+            <div class="login-icon">🔐</div>
+            <h3>Masukkan PIN</h3>
+            <p>Masukkan PIN untuk membuka laporan keuangan harian.</p>
+            <label for="report-password" class="large-input-label">
+              PIN Laporan
+              <input id="report-password" class="large-text-input" type="password" inputmode="numeric" placeholder="Ketik PIN" autocomplete="current-password" />
+            </label>
+            <button type="button" class="primary-button action-large-btn" id="unlock-report">MASUK</button>
+            <p class="result" id="report-login-result" aria-live="polite"></p>
+          </div>
+
+          <div id="report-content" hidden>
+            <!-- Konten Laporan & Pengeluaran -->
+            <div class="card date-card">
+              <div class="report-date-selector">
+                <div class="date-quick-buttons">
+                  <button type="button" class="filter-chip active" id="btn-date-today">Hari ini</button>
+                  <button type="button" class="filter-chip" id="btn-date-yesterday">Kemarin</button>
+                  <button type="button" class="filter-chip" id="btn-date-custom">Pilih tanggal</button>
+                </div>
+                <div id="custom-date-wrap" class="custom-date-wrap" hidden>
+                  <input id="report-date" type="date" class="large-text-input" />
+                </div>
+
+                <div class="report-date-display-box">
+                  <div class="report-display-date-text" id="report-display-date">Senin, 21 September 2026</div>
+                </div>
+
+                <div class="report-nav-arrows">
+                  <button type="button" class="report-nav-btn" id="btn-report-prev">
+                    ‹ Hari sebelumnya
+                  </button>
+                  <button type="button" class="report-nav-btn" id="btn-report-next" disabled>
+                    Hari berikutnya ›
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div id="report-summary"></div>
+
+            <div class="card expense-card">
+              <div class="card-heading">
+                <div>
+                  <p class="eyebrow accent-red">PENGELUARAN DEPOT</p>
+                  <h3>Catat pengeluaran</h3>
+                </div>
+              </div>
+              <div class="form-grid">
+                <label class="large-input-label">Untuk apa?
+                  <input id="expense-description" class="large-text-input" type="text" placeholder="Contoh: Beli bensin" />
+                </label>
+                <label class="large-input-label">Berapa?
+                  <input id="expense-amount" class="large-text-input" type="number" min="0" step="1000" inputmode="numeric" placeholder="Contoh: 15000" />
+                </label>
+              </div>
+              <button type="button" class="primary-button red-button action-large-btn" id="save-expense">SIMPAN PENGELUARAN</button>
+              <p class="result" id="expense-result" aria-live="polite"></p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- =====================================
+           BOTTOM NAVIGATION (KHUSUS MOBILE / LAYAR < 768px)
+           3 Tab: Beranda, Riwayat, Laporan
+           ===================================== -->
+      <nav id="bottom-nav" class="bottom-nav" aria-label="Navigasi Bawah">
+        <button type="button" class="bottom-nav-item active-nav" data-view="home-view">
+          <span class="bottom-nav-icon">⌂</span>
+          <span class="bottom-nav-label">Beranda</span>
+        </button>
+        <button type="button" class="bottom-nav-item" data-view="data-view">
+          <span class="bottom-nav-icon">▣</span>
+          <span class="bottom-nav-label">Riwayat</span>
+        </button>
+        <button type="button" class="bottom-nav-item" data-view="report-view">
+          <span class="bottom-nav-icon">▤</span>
+          <span class="bottom-nav-label">Laporan</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- =====================================
+         MODAL & FULL SCREEN OVERLAYS
+         ===================================== -->
+
+    <!-- Layar Konfirmasi Penuh (Hijau) -->
+    <div id="success-overlay" class="success-overlay" hidden>
+      <div class="success-content">
+        <div class="success-checkmark">✓</div>
+        <h2 id="success-title" class="success-title">Tersimpan</h2>
+        <p id="success-detail" class="success-detail">Setoran Oleh: 2 Galon</p>
+        <div class="success-actions">
+          <button type="button" id="btn-done-save" class="done-save-btn">
+            SELESAI
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="delete-modal" class="custom-modal-backdrop" hidden>
+      <div class="custom-modal-card">
+        <h3 class="modal-title">Konfirmasi Hapus</h3>
+        <p id="delete-modal-message" class="modal-message">Hapus data ini?</p>
+        <div class="modal-actions">
+          <button type="button" id="btn-delete-cancel" class="modal-btn modal-btn-secondary">TIDAK</button>
+          <button type="button" id="btn-delete-confirm" class="modal-btn modal-btn-danger">YA, HAPUS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Form Edit (Pengganti prompt()) -->
+    <div id="edit-modal" class="custom-modal-backdrop" hidden>
+      <div class="custom-modal-card modal-wide">
+        <h3 class="modal-title" id="edit-modal-title">Ubah Data</h3>
+        <div id="edit-modal-body" class="edit-modal-body">
+          <!-- Diisi form dinamis sesuai store -->
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="btn-edit-cancel" class="modal-btn modal-btn-secondary">BATAL</button>
+          <button type="button" id="btn-edit-save" class="modal-btn modal-btn-primary">SIMPAN PERUBAHAN</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="db.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+
